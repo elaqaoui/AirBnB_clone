@@ -1,16 +1,4 @@
 #!/usr/bin/python3
-"""Defines unittests for console.py.
-
-Unittest classes:
-    TestHBNBCommand_prompting
-    TestHBNBCommand_help
-    TestHBNBCommand_exit
-    TestHBNBCommand_create
-    TestHBNBCommand_show
-    TestHBNBCommand_all
-    TestHBNBCommand_destroy
-    TestHBNBCommand_update
-"""
 import os
 import sys
 import unittest
@@ -21,41 +9,41 @@ from io import StringIO
 from unittest.mock import patch
 
 
-class TestHBNBCommand_prompting(unittest.TestCase):
+class TestHBNBCommand_prmp(unittest.TestCase):
     """Unittests for testing prompting of the HBNB command interpreter."""
 
-    def test_prompt_string(self):
+    def test_prom_str(self):
         self.assertEqual("(hbnb) ", HBNBCommand.prompt)
 
-    def test_empty_line(self):
+    def test_vide_line(self):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd(""))
             self.assertEqual("", output.getvalue().strip())
 
 
-class TestHBNBCommand_help(unittest.TestCase):
+class TestHBNBCommand_hlp(unittest.TestCase):
     """Unittests for testing help messages of the HBNB command interpreter."""
 
-    def test_help_quit(self):
+    def test_quit_hlp(self):
         h = "Quit command to exit the program."
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help quit"))
             self.assertEqual(h, output.getvalue().strip())
 
-    def test_help_create(self):
+    def test_create_hlp(self):
         h = ("Usage: create <class>\n        "
              "Create a new class instance and print its id.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help create"))
             self.assertEqual(h, output.getvalue().strip())
 
-    def test_help_EOF(self):
+    def test_EOF_hlp(self):
         h = "EOF signal to exit the program."
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help EOF"))
             self.assertEqual(h, output.getvalue().strip())
 
-    def test_help_show(self):
+    def test_show_hlp(self):
         h = ("Usage: show <class> <id> or <class>.show(<id>)\n        "
              "Display the string representation of a class instance of"
              " a given id.")
