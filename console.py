@@ -21,14 +21,14 @@ def parse(arg):
             return [i.strip(",") for i in split(arg)]
         else:
             lexer = split(arg[:brackets.span()[0]])
-            retl = [i.strip(",") for i in lexer]
-            retl.append(brackets.group())
-            return retl
+            prs = [i.strip(",") for i in lexer]
+            prs.append(brackets.group())
+            return prs
     else:
         lexer = split(arg[:curly_braces.span()[0]])
-        retl = [i.strip(",") for i in lexer]
-        retl.append(curly_braces.group())
-        return retl
+        prs = [i.strip(",") for i in lexer]
+        prs.append(curly_braces.group())
+        return prs
 
 
 class HBNBCommand(cmd.Cmd):
@@ -189,8 +189,8 @@ class HBNBCommand(cmd.Cmd):
         if len(argl) == 4:
             obj = objdict["{}.{}".format(argl[0], argl[1])]
             if argl[2] in obj.__class__.__dict__.keys():
-                valtype = type(obj.__class__.__dict__[argl[2]])
-                obj.__dict__[argl[2]] = valtype(argl[3])
+                vlu_type = type(obj.__class__.__dict__[argl[2]])
+                obj.__dict__[argl[2]] = vlu_type(argl[3])
             else:
                 obj.__dict__[argl[2]] = argl[3]
         elif type(eval(argl[2])) == dict:
@@ -198,8 +198,8 @@ class HBNBCommand(cmd.Cmd):
             for k, v in eval(argl[2]).items():
                 if (k in obj.__class__.__dict__.keys() and
                         type(obj.__class__.__dict__[k]) in {str, int, float}):
-                    valtype = type(obj.__class__.__dict__[k])
-                    obj.__dict__[k] = valtype(v)
+                    vlu_type = type(obj.__class__.__dict__[k])
+                    obj.__dict__[k] = vlu_type(v)
                 else:
                     obj.__dict__[k] = v
         storage.save()
