@@ -51,14 +51,14 @@ class TestHBNBCommand_hlp(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("help show"))
             self.assertEqual(h, output.getvalue().strip())
 
-    def test_help_destroy(self):
+    def test_destroy_hlp(self):
         h = ("Usage: destroy <class> <id> or <class>.destroy(<id>)\n        "
              "Delete a class instance of a given id.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help destroy"))
             self.assertEqual(h, output.getvalue().strip())
 
-    def test_help_all(self):
+    def test_all_hp(self):
         h = ("Usage: all or all <class> or <class>.all()\n        "
              "Display string representations of all instances of a given class"
              ".\n        If no class is specified, displays all instantiated "
@@ -67,7 +67,7 @@ class TestHBNBCommand_hlp(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("help all"))
             self.assertEqual(h, output.getvalue().strip())
 
-    def test_help_count(self):
+    def test_count_hlp(self):
         h = ("Usage: count <class> or <class>.count()\n        "
              "Retrieve the number of instances of a given class.")
         with patch("sys.stdout", new=StringIO()) as output:
@@ -96,11 +96,11 @@ class TestHBNBCommand_hlp(unittest.TestCase):
 class TestHBNBCommand_exit(unittest.TestCase):
     """Unittests for testing exiting from the HBNB command interpreter."""
 
-    def test_quit_exits(self):
+    def test_exiting(self):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertTrue(HBNBCommand().onecmd("quit"))
 
-    def test_EOF_exits(self):
+    def test_EOF_exiting(self):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertTrue(HBNBCommand().onecmd("EOF"))
 
@@ -127,19 +127,19 @@ class TestHBNBCommand_create(unittest.TestCase):
         except IOError:
             pass
 
-    def test_create_missing_class(self):
+    def test_creation_missClass(self):
         correct = "** class name missing **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("create"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_create_invalid_class(self):
+    def test_creation_wrong_class(self):
         correct = "** class doesn't exist **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("create MyModel"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_create_invalid_syntax(self):
+    def test_creation_wrong_syt(self):
         correct = "*** Unknown syntax: MyModel.create()"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("MyModel.create()"))
@@ -149,7 +149,7 @@ class TestHBNBCommand_create(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("BaseModel.create()"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_create_object(self):
+    def test_creation_obj(self):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("create BaseModel"))
             self.assertLess(0, len(output.getvalue().strip()))
@@ -209,7 +209,7 @@ class TestHBNBCommand_show(unittest.TestCase):
         except IOError:
             pass
 
-    def test_show_missing_class(self):
+    def test_missing_cls_show(self):
         correct = "** class name missing **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("show"))
@@ -218,7 +218,7 @@ class TestHBNBCommand_show(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd(".show()"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_show_invalid_class(self):
+    def test_wrong_show_cls(self):
         correct = "** class doesn't exist **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("show MyModel"))
@@ -227,7 +227,7 @@ class TestHBNBCommand_show(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("MyModel.show()"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_show_missing_id_space_notation(self):
+    def test_missing_id_line_show(self):
         correct = "** instance id missing **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("show BaseModel"))
@@ -251,7 +251,7 @@ class TestHBNBCommand_show(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("show Review"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_show_missing_id_dot_notation(self):
+    def test_missing_id_not_show(self):
         correct = "** instance id missing **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("BaseModel.show()"))
@@ -275,7 +275,7 @@ class TestHBNBCommand_show(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("Review.show()"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_show_no_instance_found_space_notation(self):
+    def test_instance_spc_show(self):
         correct = "** no instance found **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("show BaseModel 1"))
@@ -299,7 +299,7 @@ class TestHBNBCommand_show(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("show Review 1"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_show_no_instance_found_dot_notation(self):
+    def test_instance_fn_show(self):
         correct = "** no instance found **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("BaseModel.show(1)"))
@@ -323,7 +323,7 @@ class TestHBNBCommand_show(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("Review.show(1)"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_show_objects_space_notation(self):
+    def test_space_objec_show(self):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("create BaseModel"))
             testID = output.getvalue().strip()
@@ -381,7 +381,7 @@ class TestHBNBCommand_show(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd(command))
             self.assertEqual(obj.__str__(), output.getvalue().strip())
 
-    def test_show_objects_space_notation(self):
+    def test_space_objec_show(self):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("create BaseModel"))
             testID = output.getvalue().strip()
@@ -463,7 +463,7 @@ class TestHBNBCommand_destroy(unittest.TestCase):
             pass
         storage.reload()
 
-    def test_destroy_missing_class(self):
+    def destroyMissingClass(self):
         correct = "** class name missing **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("destroy"))
@@ -472,7 +472,7 @@ class TestHBNBCommand_destroy(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd(".destroy()"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_destroy_invalid_class(self):
+    def testDestroyInvalidClass(self):
         correct = "** class doesn't exist **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("destroy MyModel"))
@@ -481,7 +481,7 @@ class TestHBNBCommand_destroy(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("MyModel.destroy()"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_destroy_id_missing_space_notation(self):
+    def testDestroyIdMissSpace(self):
         correct = "** instance id missing **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("destroy BaseModel"))
@@ -505,7 +505,7 @@ class TestHBNBCommand_destroy(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("destroy Review"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_destroy_id_missing_dot_notation(self):
+    def testDestroy1(self):
         correct = "** instance id missing **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("BaseModel.destroy()"))
@@ -529,7 +529,7 @@ class TestHBNBCommand_destroy(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("Review.destroy()"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_destroy_invalid_id_space_notation(self):
+    def testDestroy2(self):
         correct = "** no instance found **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("destroy BaseModel 1"))
@@ -553,7 +553,7 @@ class TestHBNBCommand_destroy(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("destroy Review 1"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_destroy_invalid_id_dot_notation(self):
+    def testDestroy3(self):
         correct = "** no instance found **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("BaseModel.destroy(1)"))
@@ -577,7 +577,7 @@ class TestHBNBCommand_destroy(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("Review.destroy(1)"))
             self.assertEqual(correct, output.getvalue().strip())
 
-    def test_destroy_objects_space_notation(self):
+    def testDestroy4(self):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("create BaseModel"))
             testID = output.getvalue().strip()
