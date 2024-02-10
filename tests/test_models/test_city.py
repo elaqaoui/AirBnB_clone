@@ -17,19 +17,19 @@ from models.city import City
 class TestCity_instantiation(unittest.TestCase):
     """Unittests for testing instantiation of the City class."""
 
-    def test_no_args_instantiates(self):
+    def test_instantiation_without_arguments(self):
         self.assertEqual(City, type(City()))
 
-    def test_new_instance_stored_in_objects(self):
+    def test_instance_stored_in_object_manager(self):
         self.assertIn(City(), models.storage.all().values())
 
-    def test_id_is_public_str(self):
+    def test_public_id_is_string(self):
         self.assertEqual(str, type(City().id))
 
-    def test_created_at_is_public_datetime(self):
+    def test_public_created_at_is_datetime(self):
         self.assertEqual(datetime, type(City().created_at))
 
-    def test_updated_at_is_public_datetime(self):
+    def test_updated_at_is_datetime(self):
         self.assertEqual(datetime, type(City().updated_at))
 
     def test_state_id_is_public_class_attribute(self):
@@ -38,7 +38,7 @@ class TestCity_instantiation(unittest.TestCase):
         self.assertIn("state_id", dir(cy))
         self.assertNotIn("state_id", cy.__dict__)
 
-    def test_name_is_public_class_attribute(self):
+    def test_name_class_attribute(self):
         cy = City()
         self.assertEqual(str, type(City.name))
         self.assertIn("name", dir(cy))
@@ -61,7 +61,7 @@ class TestCity_instantiation(unittest.TestCase):
         cy2 = City()
         self.assertLess(cy1.updated_at, cy2.updated_at)
 
-    def test_str_representation(self):
+    def test_string_representation(self):
         dt = datetime.today()
         dt_repr = repr(dt)
         cy = City()
@@ -77,7 +77,7 @@ class TestCity_instantiation(unittest.TestCase):
         cy = City(None)
         self.assertNotIn(None, cy.__dict__.values())
 
-    def test_instantiation_with_kwargs(self):
+    def test_instantiation_with_keyword_arguments(self):
         dt = datetime.today()
         dt_iso = dt.isoformat()
         cy = City(id="345", created_at=dt_iso, updated_at=dt_iso)
@@ -110,7 +110,7 @@ class TestCity_save(unittest.TestCase):
         except IOError:
             pass
 
-    def test_one_save(self):
+    def test_first_save(self):
         cy = City()
         sleep(0.05)
         first_updated_at = cy.updated_at
@@ -168,7 +168,7 @@ class TestCity_to_dict(unittest.TestCase):
         self.assertEqual(str, type(cy_dict["created_at"]))
         self.assertEqual(str, type(cy_dict["updated_at"]))
 
-    def test_to_dict_output(self):
+    def test_dictio_to_output(self):
         dt = datetime.today()
         cy = City()
         cy.id = "123456"
@@ -181,7 +181,7 @@ class TestCity_to_dict(unittest.TestCase):
         }
         self.assertDictEqual(cy.to_dict(), tdict)
 
-    def test_contrast_to_dict_dunder_dict(self):
+    def test_const_to_diction(self):
         cy = City()
         self.assertNotEqual(cy.to_dict(), cy.__dict__)
 

@@ -17,19 +17,19 @@ from models.user import User
 class TestUser_instantiation(unittest.TestCase):
     """Unittests for testing instantiation of the User class."""
 
-    def test_no_args_instantiates(self):
+    def test_instantiation_without_arguments(self):
         self.assertEqual(User, type(User()))
 
-    def test_new_instance_stored_in_objects(self):
+    def test_instance_stored_in_object_manager(self):
         self.assertIn(User(), models.storage.all().values())
 
-    def test_id_is_public_str(self):
+    def test_public_id_is_string(self):
         self.assertEqual(str, type(User().id))
 
-    def test_created_at_is_public_datetime(self):
+    def test_public_created_at_is_datetime(self):
         self.assertEqual(datetime, type(User().created_at))
 
-    def test_updated_at_is_public_datetime(self):
+    def test_updated_at_is_datetime(self):
         self.assertEqual(datetime, type(User().updated_at))
 
     def test_email_is_public_str(self):
@@ -61,7 +61,7 @@ class TestUser_instantiation(unittest.TestCase):
         us2 = User()
         self.assertLess(us1.updated_at, us2.updated_at)
 
-    def test_str_representation(self):
+    def test_string_representation(self):
         dt = datetime.today()
         dt_repr = repr(dt)
         us = User()
@@ -77,7 +77,7 @@ class TestUser_instantiation(unittest.TestCase):
         us = User(None)
         self.assertNotIn(None, us.__dict__.values())
 
-    def test_instantiation_with_kwargs(self):
+    def test_instantiation_with_keyword_arguments(self):
         dt = datetime.today()
         dt_iso = dt.isoformat()
         us = User(id="345", created_at=dt_iso, updated_at=dt_iso)
@@ -110,7 +110,7 @@ class TestUser_save(unittest.TestCase):
         except IOError:
             pass
 
-    def test_one_save(self):
+    def test_first_save(self):
         us = User()
         sleep(0.05)
         first_updated_at = us.updated_at
@@ -168,7 +168,7 @@ class TestUser_to_dict(unittest.TestCase):
         self.assertEqual(str, type(us_dict["created_at"]))
         self.assertEqual(str, type(us_dict["updated_at"]))
 
-    def test_to_dict_output(self):
+    def test_dictio_to_output(self):
         dt = datetime.today()
         us = User()
         us.id = "123456"
@@ -181,7 +181,7 @@ class TestUser_to_dict(unittest.TestCase):
         }
         self.assertDictEqual(us.to_dict(), tdict)
 
-    def test_contrast_to_dict_dunder_dict(self):
+    def test_const_to_diction(self):
         us = User()
         self.assertNotEqual(us.to_dict(), us.__dict__)
 

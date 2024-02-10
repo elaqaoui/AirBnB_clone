@@ -17,19 +17,19 @@ from models.base_model import BaseModel
 class TestBaseModel_instantiation(unittest.TestCase):
     """Unittests for testing instantiation of the BaseModel class."""
 
-    def test_no_args_instantiates(self):
+    def test_instantiation_without_arguments(self):
         self.assertEqual(BaseModel, type(BaseModel()))
 
-    def test_new_instance_stored_in_objects(self):
+    def test_instance_stored_in_object_manager(self):
         self.assertIn(BaseModel(), models.storage.all().values())
 
-    def test_id_is_public_str(self):
+    def test_public_id_is_string(self):
         self.assertEqual(str, type(BaseModel().id))
 
-    def test_created_at_is_public_datetime(self):
+    def test_public_created_at_is_datetime(self):
         self.assertEqual(datetime, type(BaseModel().created_at))
 
-    def test_updated_at_is_public_datetime(self):
+    def test_updated_at_is_datetime(self):
         self.assertEqual(datetime, type(BaseModel().updated_at))
 
     def test_two_models_unique_ids(self):
@@ -49,7 +49,7 @@ class TestBaseModel_instantiation(unittest.TestCase):
         bm2 = BaseModel()
         self.assertLess(bm1.updated_at, bm2.updated_at)
 
-    def test_str_representation(self):
+    def test_string_representation(self):
         dt = datetime.today()
         dt_repr = repr(dt)
         bm = BaseModel()
@@ -65,7 +65,7 @@ class TestBaseModel_instantiation(unittest.TestCase):
         bm = BaseModel(None)
         self.assertNotIn(None, bm.__dict__.values())
 
-    def test_instantiation_with_kwargs(self):
+    def test_instantiation_with_keyword_arguments(self):
         dt = datetime.today()
         dt_iso = dt.isoformat()
         bm = BaseModel(id="345", created_at=dt_iso, updated_at=dt_iso)
@@ -107,7 +107,7 @@ class TestBaseModel_save(unittest.TestCase):
         except IOError:
             pass
 
-    def test_one_save(self):
+    def test_first_save(self):
         bm = BaseModel()
         sleep(0.05)
         first_updated_at = bm.updated_at
@@ -165,7 +165,7 @@ class TestBaseModel_to_dict(unittest.TestCase):
         self.assertEqual(str, type(bm_dict["created_at"]))
         self.assertEqual(str, type(bm_dict["updated_at"]))
 
-    def test_to_dict_output(self):
+    def test_dictio_to_output(self):
         dt = datetime.today()
         bm = BaseModel()
         bm.id = "123456"
@@ -178,7 +178,7 @@ class TestBaseModel_to_dict(unittest.TestCase):
         }
         self.assertDictEqual(bm.to_dict(), tdict)
 
-    def test_contrast_to_dict_dunder_dict(self):
+    def test_const_to_diction(self):
         bm = BaseModel()
         self.assertNotEqual(bm.to_dict(), bm.__dict__)
 
