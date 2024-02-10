@@ -11,31 +11,33 @@ from models.review import Review
 
 
 class FileStorage:
+    """Represent an abstracted storage engine.
 
-    # Abstracted storage engine representation with attributes:
-    # __file_path (file name for saving objects) and __objects (dictionary storing instantiated objects).
-
+    Attributes:
+        __file_path (str): The name of the file to save objects to.
+        __objects (dict): A dictionary of instantiated objects.
+    """
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
-        # return dict of all objects.
+        """Return the dictionary __objects."""
         return FileStorage.__objects
 
     def new(self, obj):
-        # set new object to objects dictionary.
+        """Set in __objects obj with key <obj_class_name>.id"""
         ocname = obj.__class__.__name__
         FileStorage.__objects["{}.{}".format(ocname, obj.id)] = obj
 
     def save(self):
-        # serialize objects dictionary to JSON file.
+        """Serialize __objects to the JSON file __file_path."""
         odict = FileStorage.__objects
         objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
         with open(FileStorage.__file_path, "w") as f:
             json.dump(objdict, f)
 
     def reload(self):
-        # deserialize JSON file to objects dict.
+        """Deserialize the JSON file __file_path to __objects, if it exists."""
         try:
             with open(FileStorage.__file_path) as f:
                 objdict = json.load(f)
