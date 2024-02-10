@@ -1,12 +1,18 @@
 #!/usr/bin/python3
-"""Defines the BaseModel class."""
+# Defines the BaseModel class.
+
 import models
 from uuid import uuid4
 from datetime import datetime
 
 
 class BaseModel:
-    """Represents the BaseModel of the HBnB project."""
+    """BaseModel class for the HBnB project."""
+
+    def save(self):
+        """Update updated_at with the current datetime."""
+        self.updated_at = datetime.today()
+        models.storage.save()
 
     def __init__(self, *args, **kwargs):
         """Initialize a new BaseModel.
@@ -27,11 +33,6 @@ class BaseModel:
                     self.__dict__[k] = v
         else:
             models.storage.new(self)
-
-    def save(self):
-        """Update updated_at with the current datetime."""
-        self.updated_at = datetime.today()
-        models.storage.save()
 
     def to_dict(self):
         """Return the dictionary of the BaseModel instance.
