@@ -45,15 +45,15 @@ class TestBaseModel_instantiation(unittest.TestCase):
 
     def test_str_reprisent(self):
         dt = datetime.today()
-        dt_repr = repr(dt)
+        time_repr = repr(dt)
         bm = BaseModel()
         bm.id = "123456"
         bm.created_at = bm.updated_at = dt
         bmstr = bm.__str__()
         self.assertIn("[BaseModel] (123456)", bmstr)
         self.assertIn("'id': '123456'", bmstr)
-        self.assertIn("'created_at': " + dt_repr, bmstr)
-        self.assertIn("'updated_at': " + dt_repr, bmstr)
+        self.assertIn("'created_at': " + time_repr, bmstr)
+        self.assertIn("'updated_at': " + time_repr, bmstr)
 
     def test_args_not_used(self):
         bm = BaseModel(None)
@@ -61,8 +61,8 @@ class TestBaseModel_instantiation(unittest.TestCase):
 
     def test_instantiation_with_keyword_arguments(self):
         dt = datetime.today()
-        dt_iso = dt.isoformat()
-        bm = BaseModel(id="345", created_at=dt_iso, updated_at=dt_iso)
+        time_iso = dt.isoformat()
+        bm = BaseModel(id="345", created_at=time_iso, updated_at=time_iso)
         self.assertEqual(bm.id, "345")
         self.assertEqual(bm.created_at, dt)
         self.assertEqual(bm.updated_at, dt)
@@ -73,8 +73,8 @@ class TestBaseModel_instantiation(unittest.TestCase):
 
     def test_instantiation_with_args_and_kwargs(self):
         dt = datetime.today()
-        dt_iso = dt.isoformat()
-        bm = BaseModel("12", id="345", created_at=dt_iso, updated_at=dt_iso)
+        time_iso = dt.isoformat()
+        bm = BaseModel("12", id="345", created_at=time_iso, updated_at=time_iso)
         self.assertEqual(bm.id, "345")
         self.assertEqual(bm.created_at, dt)
         self.assertEqual(bm.updated_at, dt)
@@ -161,13 +161,13 @@ class TestBaseModel_to_dict(unittest.TestCase):
         bm = BaseModel()
         bm.id = "123456"
         bm.created_at = bm.updated_at = dt
-        tdict = {
+        t_dict = {
             'id': '123456',
             '__class__': 'BaseModel',
             'created_at': dt.isoformat(),
             'updated_at': dt.isoformat()
         }
-        self.assertDictEqual(bm.to_dict(), tdict)
+        self.assertDictEqual(bm.to_dict(), t_dict)
 
     def test_const_to_diction(self):
         bm = BaseModel()

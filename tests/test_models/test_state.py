@@ -54,15 +54,15 @@ class TestState_instantiation(unittest.TestCase):
 
     def test_str_reprisent(self):
         dt = datetime.today()
-        dt_repr = repr(dt)
+        time_repr = repr(dt)
         st = State()
         st.id = "123456"
         st.created_at = st.updated_at = dt
         ststr = st.__str__()
         self.assertIn("[State] (123456)", ststr)
         self.assertIn("'id': '123456'", ststr)
-        self.assertIn("'created_at': " + dt_repr, ststr)
-        self.assertIn("'updated_at': " + dt_repr, ststr)
+        self.assertIn("'created_at': " + time_repr, ststr)
+        self.assertIn("'updated_at': " + time_repr, ststr)
 
     def test_args_not_used(self):
         st = State(None)
@@ -70,8 +70,8 @@ class TestState_instantiation(unittest.TestCase):
 
     def test_instantiation_with_keyword_arguments(self):
         dt = datetime.today()
-        dt_iso = dt.isoformat()
-        st = State(id="345", created_at=dt_iso, updated_at=dt_iso)
+        time_iso = dt.isoformat()
+        st = State(id="345", created_at=time_iso, updated_at=time_iso)
         self.assertEqual(st.id, "345")
         self.assertEqual(st.created_at, dt)
         self.assertEqual(st.updated_at, dt)
@@ -162,13 +162,13 @@ class TestState_to_dict(unittest.TestCase):
         st = State()
         st.id = "123456"
         st.created_at = st.updated_at = dt
-        tdict = {
+        t_dict = {
             'id': '123456',
             '__class__': 'State',
             'created_at': dt.isoformat(),
             'updated_at': dt.isoformat(),
         }
-        self.assertDictEqual(st.to_dict(), tdict)
+        self.assertDictEqual(st.to_dict(), t_dict)
 
     def test_const_to_diction(self):
         st = State()

@@ -56,15 +56,15 @@ class TestCity_instantiation(unittest.TestCase):
 
     def test_str_reprisent(self):
         dt = datetime.today()
-        dt_repr = repr(dt)
+        time_repr = repr(dt)
         cy = City()
         cy.id = "123456"
         cy.created_at = cy.updated_at = dt
         cystr = cy.__str__()
         self.assertIn("[City] (123456)", cystr)
         self.assertIn("'id': '123456'", cystr)
-        self.assertIn("'created_at': " + dt_repr, cystr)
-        self.assertIn("'updated_at': " + dt_repr, cystr)
+        self.assertIn("'created_at': " + time_repr, cystr)
+        self.assertIn("'updated_at': " + time_repr, cystr)
 
     def test_args_not_used(self):
         cy = City(None)
@@ -72,8 +72,8 @@ class TestCity_instantiation(unittest.TestCase):
 
     def test_instantiation_with_keyword_arguments(self):
         dt = datetime.today()
-        dt_iso = dt.isoformat()
-        cy = City(id="345", created_at=dt_iso, updated_at=dt_iso)
+        time_iso = dt.isoformat()
+        cy = City(id="345", created_at=time_iso, updated_at=time_iso)
         self.assertEqual(cy.id, "345")
         self.assertEqual(cy.created_at, dt)
         self.assertEqual(cy.updated_at, dt)
@@ -164,13 +164,13 @@ class TestCity_to_dict(unittest.TestCase):
         cy = City()
         cy.id = "123456"
         cy.created_at = cy.updated_at = dt
-        tdict = {
+        t_dict = {
             'id': '123456',
             '__class__': 'City',
             'created_at': dt.isoformat(),
             'updated_at': dt.isoformat(),
         }
-        self.assertDictEqual(cy.to_dict(), tdict)
+        self.assertDictEqual(cy.to_dict(), t_dict)
 
     def test_const_to_diction(self):
         cy = City()

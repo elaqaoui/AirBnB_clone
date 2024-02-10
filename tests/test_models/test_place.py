@@ -110,15 +110,15 @@ class TestPlace_instantiation(unittest.TestCase):
 
     def test_str_reprisent(self):
         dt = datetime.today()
-        dt_repr = repr(dt)
+        time_repr = repr(dt)
         pl = Place()
         pl.id = "123456"
         pl.created_at = pl.updated_at = dt
         plstr = pl.__str__()
         self.assertIn("[Place] (123456)", plstr)
         self.assertIn("'id': '123456'", plstr)
-        self.assertIn("'created_at': " + dt_repr, plstr)
-        self.assertIn("'updated_at': " + dt_repr, plstr)
+        self.assertIn("'created_at': " + time_repr, plstr)
+        self.assertIn("'updated_at': " + time_repr, plstr)
 
     def test_args_not_used(self):
         pl = Place(None)
@@ -126,8 +126,8 @@ class TestPlace_instantiation(unittest.TestCase):
 
     def test_instantiation_with_keyword_arguments(self):
         dt = datetime.today()
-        dt_iso = dt.isoformat()
-        pl = Place(id="345", created_at=dt_iso, updated_at=dt_iso)
+        time_iso = dt.isoformat()
+        pl = Place(id="345", created_at=time_iso, updated_at=time_iso)
         self.assertEqual(pl.id, "345")
         self.assertEqual(pl.created_at, dt)
         self.assertEqual(pl.updated_at, dt)
@@ -218,13 +218,13 @@ class TestPlace_to_dict(unittest.TestCase):
         pl = Place()
         pl.id = "123456"
         pl.created_at = pl.updated_at = dt
-        tdict = {
+        t_dict = {
             'id': '123456',
             '__class__': 'Place',
             'created_at': dt.isoformat(),
             'updated_at': dt.isoformat(),
         }
-        self.assertDictEqual(pl.to_dict(), tdict)
+        self.assertDictEqual(pl.to_dict(), t_dict)
 
     def test_const_to_diction(self):
         pl = Place()
