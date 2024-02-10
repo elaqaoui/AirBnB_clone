@@ -14,20 +14,20 @@ from models.review import Review
 
 
 def parse(arg):
-    curly_brackets = re.search(r"\{(.*?)\}", arg)
-    brackets = re.search(r"\[(.*?)\]", arg)
-    if curly_brackets is None:
-        if brackets is None:
+    curly_braces = re.search(r"\{(.*?)\}", arg)
+    square_brackets = re.search(r"\[(.*?)\]", arg)
+    if curly_braces is None:
+        if square_brackets is None:
             return [i.strip(",") for i in split(arg)]
         else:
-            token_parse = split(arg[:brackets.span()[0]])
+            token_parse = split(arg[:square_brackets.span()[0]])
             return_list = [i.strip(",") for i in token_parse]
-            return_list.append(brackets.group())
+            return_list.append(square_brackets.group())
             return return_list
     else:
-        token_parse = split(arg[:curly_brackets.span()[0]])
+        token_parse = split(arg[:curly_braces.span()[0]])
         return_list = [i.strip(",") for i in token_parse]
-        return_list.append(curly_brackets.group())
+        return_list.append(curly_braces.group())
         return return_list
 
 
@@ -100,33 +100,33 @@ class HBNBCommand(cmd.Cmd):
         Display the string representation of a class instance of a given id.
         """
         argl = parse(arg)
-        objdict = storage.all()
+        object_dictionary = storage.all()
         if len(argl) == 0:
             print("** class name missing **")
         elif argl[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(argl) == 1:
             print("** instance id missing **")
-        elif "{}.{}".format(argl[0], argl[1]) not in objdict:
+        elif "{}.{}".format(argl[0], argl[1]) not in object_dictionary:
             print("** no instance found **")
         else:
-            print(objdict["{}.{}".format(argl[0], argl[1])])
+            print(object_dictionary["{}.{}".format(argl[0], argl[1])])
 
     def do_destroy(self, arg):
         """Usage: destroy <class> <id> or <class>.destroy(<id>)
         Delete a class instance of a given id."""
         argl = parse(arg)
-        objdict = storage.all()
+        object_dictionary = storage.all()
         if len(argl) == 0:
             print("** class name missing **")
         elif argl[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         elif len(argl) == 1:
             print("** instance id missing **")
-        elif "{}.{}".format(argl[0], argl[1]) not in objdict.keys():
+        elif "{}.{}".format(argl[0], argl[1]) not in object_dictionary.keys():
             print("** no instance found **")
         else:
-            del objdict["{}.{}".format(argl[0], argl[1])]
+            del object_dictionary["{}.{}".format(argl[0], argl[1])]
             storage.save()
 
     def do_all(self, arg):
@@ -162,7 +162,7 @@ class HBNBCommand(cmd.Cmd):
         Update a class instance of a given id by adding or updating
         a given attribute key/value pair or dictionary."""
         argl = parse(arg)
-        objdict = storage.all()
+        object_dictionary = storage.all()
 
         if len(argl) == 0:
             print("** class name missing **")
@@ -173,7 +173,7 @@ class HBNBCommand(cmd.Cmd):
         if len(argl) == 1:
             print("** instance id missing **")
             return False
-        if "{}.{}".format(argl[0], argl[1]) not in objdict.keys():
+        if "{}.{}".format(argl[0], argl[1]) not in object_dictionary.keys():
             print("** no instance found **")
             return False
         if len(argl) == 2:
@@ -187,14 +187,14 @@ class HBNBCommand(cmd.Cmd):
                 return False
 
         if len(argl) == 4:
-            obj = objdict["{}.{}".format(argl[0], argl[1])]
+            obj = object_dictionary["{}.{}".format(argl[0], argl[1])]
             if argl[2] in obj.__class__.__dict__.keys():
                 valtype = type(obj.__class__.__dict__[argl[2]])
                 obj.__dict__[argl[2]] = valtype(argl[3])
             else:
                 obj.__dict__[argl[2]] = argl[3]
         elif type(eval(argl[2])) == dict:
-            obj = objdict["{}.{}".format(argl[0], argl[1])]
+            obj = object_dictionary["{}.{}".format(argl[0], argl[1])]
             for kv, val in eval(argl[2]).items():
                 if (kv in obj.__class__.__dict__.keys() and
                         type(obj.__class__.__dict__[kv]) in {str, int, float}):
