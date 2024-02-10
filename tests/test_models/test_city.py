@@ -54,7 +54,7 @@ class TestCity_instantiation(unittest.TestCase):
         cy2 = City()
         self.assertLess(cy1.updated_at, cy2.updated_at)
 
-    def test_string_representation(self):
+    def test_str_reprisent(self):
         dt = datetime.today()
         dt_repr = repr(dt)
         cy = City()
@@ -66,7 +66,7 @@ class TestCity_instantiation(unittest.TestCase):
         self.assertIn("'created_at': " + dt_repr, cystr)
         self.assertIn("'updated_at': " + dt_repr, cystr)
 
-    def test_args_unused(self):
+    def test_args_not_used(self):
         cy = City(None)
         self.assertNotIn(None, cy.__dict__.values())
 

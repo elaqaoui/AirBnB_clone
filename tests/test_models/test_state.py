@@ -1,11 +1,5 @@
 #!/usr/bin/python3
-"""Defines unittests for models/state.py.
 
-Unittest classes:
-    TestState_instantiation
-    TestState_save
-    TestState_to_dict
-"""
 import os
 import models
 import unittest
@@ -15,7 +9,10 @@ from models.state import State
 
 
 class TestState_instantiation(unittest.TestCase):
-    """Unittests for testing instantiation of the State class."""
+    # Tests for instantiation
+    def test_no_args_instantiates(self):
+        self.assertEqual(State, type(State()))
+    # chak fhadi
 
     def test_instantiation_without_arguments(self):
         self.assertEqual(State, type(State()))
@@ -55,7 +52,7 @@ class TestState_instantiation(unittest.TestCase):
         st2 = State()
         self.assertLess(st1.updated_at, st2.updated_at)
 
-    def test_string_representation(self):
+    def test_str_reprisent(self):
         dt = datetime.today()
         dt_repr = repr(dt)
         st = State()
@@ -67,7 +64,7 @@ class TestState_instantiation(unittest.TestCase):
         self.assertIn("'created_at': " + dt_repr, ststr)
         self.assertIn("'updated_at': " + dt_repr, ststr)
 
-    def test_args_unused(self):
+    def test_args_not_used(self):
         st = State(None)
         self.assertNotIn(None, st.__dict__.values())
 
@@ -85,7 +82,6 @@ class TestState_instantiation(unittest.TestCase):
 
 
 class TestState_save(unittest.TestCase):
-    """Unittests for testing save method of the State class."""
 
     @classmethod
     def setUp(self):
@@ -136,7 +132,6 @@ class TestState_save(unittest.TestCase):
 
 
 class TestState_to_dict(unittest.TestCase):
-    """Unittests for testing to_dict method of the State class."""
 
     def test_to_dict_type(self):
         self.assertTrue(dict, type(State().to_dict()))

@@ -108,7 +108,7 @@ class TestPlace_instantiation(unittest.TestCase):
         pl2 = Place()
         self.assertLess(pl1.updated_at, pl2.updated_at)
 
-    def test_string_representation(self):
+    def test_str_reprisent(self):
         dt = datetime.today()
         dt_repr = repr(dt)
         pl = Place()
@@ -120,7 +120,7 @@ class TestPlace_instantiation(unittest.TestCase):
         self.assertIn("'created_at': " + dt_repr, plstr)
         self.assertIn("'updated_at': " + dt_repr, plstr)
 
-    def test_args_unused(self):
+    def test_args_not_used(self):
         pl = Place(None)
         self.assertNotIn(None, pl.__dict__.values())
 

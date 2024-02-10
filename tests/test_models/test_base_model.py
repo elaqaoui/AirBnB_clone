@@ -43,7 +43,7 @@ class TestBaseModel_instantiation(unittest.TestCase):
         bm2 = BaseModel()
         self.assertLess(bm1.updated_at, bm2.updated_at)
 
-    def test_string_representation(self):
+    def test_str_reprisent(self):
         dt = datetime.today()
         dt_repr = repr(dt)
         bm = BaseModel()
@@ -55,7 +55,7 @@ class TestBaseModel_instantiation(unittest.TestCase):
         self.assertIn("'created_at': " + dt_repr, bmstr)
         self.assertIn("'updated_at': " + dt_repr, bmstr)
 
-    def test_args_unused(self):
+    def test_args_not_used(self):
         bm = BaseModel(None)
         self.assertNotIn(None, bm.__dict__.values())
 
