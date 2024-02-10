@@ -1,20 +1,19 @@
 #!/usr/bin/python3
-# test_file_storage - Test FileStorage class
+"""
+    This is a module test from BaseModel class and your methods.
+"""
 from models.engine.file_storage import FileStorage
 import unittest
 from models.engine.file_storage import BaseModel
 
 
-class testing_file_storage(unittest.TestCase):
+class TestFileStorage(unittest.TestCase):
 
-    def test_instantiation(self):
-        # make sure that the creation process was correct.
-        self.assertEqual(type(FileStorage()), FileStorage)
-
-    def setUp (self):
-        # init the storage class
+    def setUp(self):
         self.storage = FileStorage()
 
-    def test_creation_success(self):
-        # make sure that the creation process was correct.
+    def test_creation(self):
+        '''
+            this test validate that creation proccess was correct.
+        '''
         self.assertEqual(self.storage.save(), None)

@@ -1,38 +1,42 @@
 #!/usr/bin/env python3
-# Program named console.py that serves as the entry point for the command interpreter.
-
+"""Program called console.py that contains the entry point of the command
+interpreter.
+"""
 import cmd
 import os
 from models.base_model import BaseModel
 from models import storage
 
+# TODO: refactor delete, create, update, print in storage
+
+
 class HBNBCommand(cmd.Cmd):
-# Class to manage the console and handle all commands built for the project.
+    """Class to manage the console and all the commands built to the project"""
     prompt = '(hbnb)'
-    TRU_classes = ['BaseModel', 'User', 'Amenity', 'Review', 'State', 'City',
+    valid_classes = ['BaseModel', 'User', 'Amenity', 'Review', 'State', 'City',
                      'Place']
 
-    ERROR_CLASS_NAME_MISSING = '** class name missing **'
-    ERROR_CLASS_NOT_EXIST = "** class doesn't exist **"
-    ERROR_ID_MISSING = "** instance id missing **"
-    ERROR_ID_NOT_EXIST = "** no instance found **"
-    ERROR_ATTRI_NAME_MISSING = "** attribute name missing **"
-    ERROR_ATTRI_VALUE_MISSING= "** value missing **"
+    ERROR_CLASS_NAME = '** class name missing **'
+    ERROR_CLASS = "** class doesn't exist **"
+    ERROR_ID = "** instance id missing **"
+    ERROR_ID_NOT_FOUND = "** no instance found **"
+    ERROR_ATTR = "** attribute name missing **"
+    ERROR_ATTR_VALUE = "** value missing **"
 
-    # Helper function to modify the command-line interpreter. This function
-    # handles and reorders the input of the console to allow the functions to
-    # work with a formatted command line.
-    def terminal_upd_line_split(self, command, class_name):
-
+    def cmd_cls_args_split(self, command, class_name):
+        """Auxiliary function to update the command-line interpreter. This
+        function manages and reorders the input of the console to allow the
+        functions to work with a formatted command line.
+        """
         if command.find("(") != -1:
             attr_name = ''
             value = ''
 
-            cmd_args_split = command.split('(')
-            command = cmd_args_split[0]
-            cmd_args_split[1] = cmd_args_split[1].replace(')', '')
-            cmd_args_split[1] = cmd_args_split[1].replace('"', '')
-            args = cmd_args_split[1].split(',')
+            args_split = command.split('(')
+            command = args_split[0]
+            args_split[1] = args_split[1].replace(')', '')
+            args_split[1] = args_split[1].replace('"', '')
+            args = args_split[1].split(',')
             id_number = args[0].strip(" ")
             if len(args) > 1:
                 attr_name = args[1].strip(" ")
@@ -41,170 +45,177 @@ class HBNBCommand(cmd.Cmd):
             return '{} {} {} {} "{}"'.format(command, class_name, id_number,
                                              attr_name, value)
 
-        elif class_name in HBNBCommand.TRU_classes:
+        elif class_name in HBNBCommand.valid_classes:
             return "{} {}".format(command, class_name)
 
     def onecmd(self, line: str) -> bool:
-# Updating the command-line interpreter to allow this usage:
-# <class name>.<command>() or <class name>.<command>("args")
-
-        command_line_split = line.split(".")
+        """Updating the command line interpreter to allow this usage:
+        <class name>.<command>() or <class name>.<command>("args")
+        """
+        line_split = line.split(".")
         # Class.command
-        if len(command_line_split) > 1:
-            class_name = command_line_split[0]
-            command = command_line_split[1].replace('()', '')
+        if len(line_split) > 1:
+            class_name = line_split[0]
+            command = line_split[1].replace('()', '')
             # parameters
-            line = self.terminal_upd_line_split(command, class_name)
+            line = self.cmd_cls_args_split(command, class_name)
 
         return super().onecmd(line)
 
-    def Argument_lent_upd(self, arg):
-    # Validates if the command receives the class_name argument.
+    def validate_len_args(self, arg):
+        """Validates if the command receives the class_name argument"""
         if len(arg) == 0:
-            print(HBNBCommand.ERROR_CLASS_NAME_MISSING)
+            print(HBNBCommand.ERROR_CLASS_NAME)
             return False
         return True
 
-    def affecte_extr_classes(self, arg):
-        # Validates if the specified argument contains a valid class name.
-
+    def validate_class_name(self, arg):
+        """Validates if the class_name argument is a valid class"""
         args = arg.split(' ')
         class_name = args[0]
-        if class_name not in HBNBCommand.TRU_classes:
-            print(HBNBCommand.ERROR_CLASS_NOT_EXIST)
+        if class_name not in HBNBCommand.valid_classes:
+            print(HBNBCommand.ERROR_CLASS)
             return False
         return class_name
 
-    def affect_extracting_more_id(self, arg):
-        # Validates the presence of an 'id_number' argument in the command.
+    def validate_id(self, arg):
+        """Validates if the command receives an id_number argument """
         args = arg.split(' ')
         if len(args) < 2:
-            print(HBNBCommand.ERROR_ID_MISSING)
+            print(HBNBCommand.ERROR_ID)
             return False
         id_number = args[1]
         return id_number
 
-    def extract_working_attribute(self, arg):
-        #Validates the presence of an attribute argument in the command.
+    def validate_attr(self, arg):
+        """Validates if the command receives an attribute argument"""
         args = arg.split(' ')
         if len(args) < 3:
-            print(HBNBCommand.ERROR_ATTRI_NAME_MISSING)
+            print(HBNBCommand.ERROR_ATTR)
             return False
         attribute = args[2]
         return attribute
 
-    def extract_working_attribute_valeur(self, arg):
-        #Validates the presence of an attribute value in the command.
+    def validate_attr_value(self, arg):
+        """Validates if attribute value exists"""
         args = arg.split(' ')
         if len(args) < 4:
-            print(HBNBCommand.ERROR_ATTRI_VALUE_MISSING)
+            print(HBNBCommand.ERROR_ATTR_VALUE)
             return False
         attr_value = args[3]
         return attr_value
 
     def do_EOF(self, arg):
-        # Quits with a new line <end of file>
-        # Usage: Ctrl + d
-
+        """ Quits with new line <end of file>
+        Usage: Ctrl + d """
         print()
         return True
 
     def emptyline(self):
-        #check for emptylines
+        """ None """
         pass
 
     def do_quit(self, arg):
-        # Exits the program to quit the console
+        """ Quits the console
+        Usage: quit """
         return True
 
     def do_create(self, arg):
-        # Creates new elements Usage: create <class_name> or <class_name>.create().
-        if not self.Argument_lent_upd(arg):
+        """ Creates new elements
+        Usage: create <class_name> or <class_name>.create()
+        """
+        if not self.validate_len_args(arg):
             return
 
-        class_name = self.affecte_extr_classes(arg)
+        class_name = self.validate_class_name(arg)
         if not class_name:
             return
 
         storage.create(class_name)
 
     def do_show(self, arg):
-       # Shows an element by id_number Usage: show <class_name> <id> or <class_name>.show("<id>")
-        if not self.Argument_lent_upd(arg):
+        """ Shows an element by id_number
+        Usage: show <class_name> <id> or <class_name>.show("<id>")
+        """
+        if not self.validate_len_args(arg):
             return
 
-        class_name = self.affecte_extr_classes(arg)
+        class_name = self.validate_class_name(arg)
         if not class_name:
             return
 
-        id_number = self.affect_extracting_more_id(arg)
+        id_number = self.validate_id(arg)
         if not id_number:
             return
         objects = storage.all()
-        keys = "{}.{}".format(class_name, id_number)
+        key = "{}.{}".format(class_name, id_number)
         try:
-            print(objects[keys])
+            print(objects[key])
         except:
-            print(HBNBCommand.ERROR_ID_NOT_EXIST)
+            print(HBNBCommand.ERROR_ID_NOT_FOUND)
 
     def do_destroy(self, arg):
-        # Deletes elements in storage Usage: destroy <class_name> <id> or <class_name>.destroy("<id>").
-        if not self.Argument_lent_upd(arg):
+        """ Deletes elements in storage
+        Usage: destroy <class_name> <id> or <class_name>.destroy("<id>")
+        """
+        if not self.validate_len_args(arg):
             return
 
-        class_name = self.affecte_extr_classes(arg)
+        class_name = self.validate_class_name(arg)
         if not class_name:
             return
 
-        id_number = self.affect_extracting_more_id(arg)
+        id_number = self.validate_id(arg)
         if not id_number:
             return
 
         objects = storage.all()
-        keys = "{}.{}".format(class_name, id_number)
+        key = "{}.{}".format(class_name, id_number)
 
         try:
-            del objects[keys]
+            del objects[key]
             storage.save()
         except:
-            print(HBNBCommand.ID_missing)
+            print(HBNBCommand.ERROR_ID_NOT_FOUND)
 
     def do_all(self, arg):
-        # Prints all elements in storage by class name.
+        """ Prints all elements in storage by class name
+         Usage: all or all <class_name> or <class_name>.all()
+        """
         class_name = None
         if len(arg) > 0:
-            class_name = self.affecte_extr_classes(arg)
+            class_name = self.validate_class_name(arg)
             if not class_name:
                 return
             # filter data
         storage.print(class_name)
 
     def do_update(self, arg):
-    # Updates info in storage
-    # Usage: update <class_name> <id> <attribute_name> <attribute_value>
-    # or <class_name>.update("<id>", "<attribute_name>", "<attribute_value>")
-
-        if not self.Argument_lent_upd(arg):
+        """ Updates info in storage
+        Usage: update <class_name> <id> <attribute_name> <attribute_value>
+        or <class_name>.update("<id>", "<attribute_name>", "<attribute_value>")
+        """
+        if not self.validate_len_args(arg):
             return
-        class_name = self.affecte_extr_classes(arg)
+        class_name = self.validate_class_name(arg)
         if not class_name:
             return
-        id_number = self.affect_extracting_more_id(arg)
+        id_number = self.validate_id(arg)
         if not id_number:
             return
 
-        attribute = self.extract_working_attribute(arg)
+        attribute = self.validate_attr(arg)
         if not attribute:
             return
-        attr_value = self.extract_working_attribute_valeur(arg)
+        attr_value = self.validate_attr_value(arg)
         if not attr_value:
             return
         try:
             objects = storage.all()
-            keys = "{}.{}".format(class_name, id_number)
-            obj = objects[keys]
+            key = "{}.{}".format(class_name, id_number)
+            obj = objects[key]
         except:
-            print(HBNBCommand.ID_missing)
+            print(HBNBCommand.ERROR_ID_NOT_FOUND)
             return
 
         # obj[attribute] = attr_value
@@ -222,23 +233,26 @@ class HBNBCommand(cmd.Cmd):
         obj.save()
 
     def do_clear(self, _):
-       # Clears the screen.
+        """Clears the terminal
+        Usage: clear
+        """
         if os.name == 'posix':
             os.system('clear')
         else:
             os.system('cls')
 
     def do_count(self, arg):
-       # Counts the number of elements in storage.
-        if not self.Argument_lent_upd(arg):
+        """ Retrieves the number of instances of a specific class
+        Usage: <class_name>.count()
+        """
+        if not self.validate_len_args(arg):
             return
-        class_name = self.affecte_extr_classes(arg)
+        class_name = self.validate_class_name(arg)
         if not class_name:
             return
 
-        filtered_class_list = storage.filter_elements_by_class(class_name)
-        print(len(filtered_class_list))
+        class_list = storage.filter_by_class(class_name)
+        print(len(class_list))
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-

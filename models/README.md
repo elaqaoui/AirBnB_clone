@@ -1,70 +1,66 @@
-## Project : AirBnB Clone - Console
-## authors : Mohamed EL AQAOUI & Atmane Baria
+# 0x00. AirBnB clone - The console
 
-Project Overview :
-Welcome to the AirBnB clone project! this project is a good challenge for us to test our python knowledge during this learning The primary objective is to develop a command interpreter to manage various objects within the AirBnB application.
+## Description
 
-# Command line
+This repository contains the first tasks of the AirBnB clone project for [ALX](https://www.alxafrica.com/software/).
+During this first part of the project we had to::
+- Put in place a parent class (called BaseModel) to take care of the initialization, serialization and deserialization of your future instances.
+- Create a simple flow of serialization/deserialization: Instance <-> Dictionary <-> JSON string <-> file
+- Create all classes used for AirBnB (User, State, City, Place…) that inherit from BaseModel
+- Create the first abstracted storage engine of the project: File storage.
+- Create all unittests to validate all our classes and storage engine
 
-The command interpreter serves as a tool for interacting with AirBnB objects. Similar to a shell, it enables the user to:
 
-Create new objects (e.g., User, Place)
-Retrieve objects from various sources (files, databases)
-Perform operations on objects (count, compute stats, etc.)
-Update attributes of an object
-Destroy an object
+### Files description
 
-# Execution Modes
+- **AUTHORS**
+ This file has a list of individuals that contributed content to the repository.
 
-The console supports both interactive and non-interactive modes. In interactive mode, it operates as follows:
+- **console.py**
+It contains a command line interpreter limited to a specific use-case. In our case, we want to be able to manage the objects of our project using this console.
 
-----------------------------------------------------------
+- **models**
+This folder contains all the Class modules of the project, and a folder called engine. 
+
+- **tests**
+This folder contains all the UNITTEST of every module stored in the models folder and the TEST of the console.py file.
+
+## Features
+
+- **Programming language:** python3
+- **Style:** All modules use the **PEP 8** style
+- **Documentation:** All modules have documentation, including the functions, classes,etc.
+
+
+## Usage
+
+The console (console.py) works like this in interactive mode:
+```
 $ ./console.py
 (hbnb) help
 
 Documented commands (type help <topic>):
 ========================================
-EOF  help  quit
+EOF  help  quit  create  destroy  show  all  update
 
 (hbnb)
 (hbnb)
 (hbnb) quit
 $
-----------------------------------------------------------
+```
 
-## Non-interactive mode, resembling the Shell project in C, is also supported:
-
-----------------------------------------------------------
+But also in non-interactive mode:
+```
 $ echo "help" | ./console.py
 (hbnb)
 
 Documented commands (type help <topic>):
 ========================================
-EOF  help  quit
-(hbnb)
+EOF  help  quit  create  destroy  show  all  update
 $
-$ cat test_help
-help
-$
-$ cat test_help | ./console.py
-(hbnb)
-
-Documented commands (type help <topic>):
-========================================
-EOF  help  quit
-(hbnb)
-$
----------------------------------------------------------
-$ create BaseModel
-$ show BaseModel 49faff9a-6318-451f-87b6-910505c55907
-$ destroy BaseModel 49faff9a-6318-451f-87b6-910505c55907
-
-# Running Tests :
-
-$ echo "python3 -m unittest discover tests" | bash
-
-# Authors
+```
+## Authors
 | Name | GitHub username |
 | ------ | ------ |
-| Mohamed EL AQAOUI |(https://github.com/altyano) |
-| Atmane Baria      |(https://github.com/nuel07atmanbaria) |
+| Yunus Kidem | [Yunus-kidem](https://github.com/Yunus-kidem) |
+| Promise Yehangane  | [nuel07](https://github.com/nuel07) |

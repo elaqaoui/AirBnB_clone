@@ -19,7 +19,7 @@ class BaseModel:
         """ constructor for initialization of BaseModel and  validate kwargs
         Args:
              *args(any): unused
-             **kwargs(dict):keys/value pairs
+             **kwargs(dict):key/value pairs
         """
         if len(kwargs) == 0:
             self.id = str(uuid.uuid4())
@@ -28,10 +28,10 @@ class BaseModel:
             storage.new(self)
 
         if len(kwargs) > 0:
-            for keys, value in kwargs.items():
-                if keys == '__class__':
+            for key, value in kwargs.items():
+                if key == '__class__':
                     continue
-                setattr(self, keys, value)
+                setattr(self, key, value)
 
             self.created_at = datetime.strptime(
                 self.created_at, '%Y-%m-%dT%H:%M:%S.%f')
@@ -44,13 +44,13 @@ class BaseModel:
             Information with this format:
             [<class name>] (<self.id>) <self.__dict__>
         """
-        formed_dict = self.__dict__
+        my_dict = self.__dict__
 
-        formed_dict['updated_at'] = self.updated_at
-        formed_dict['created_at'] = self.created_at
+        my_dict['updated_at'] = self.updated_at
+        my_dict['created_at'] = self.created_at
 
         return '[{}] ({}) {}'.format(self.__class__.__name__, self.id,
-                                         formed_dict)
+                                         my_dict)
 
     def save(self):
         """updates the public instance attribute updated_at with the
@@ -62,16 +62,16 @@ class BaseModel:
         """
         Returns:
             -A dictionary containing keys/values of __dict__ of the instance
-            -A 'keys __class__'  with the class name of the object.
+            -A 'key __class__'  with the class name of the object.
             -'created_at' and 'updated_at' in isoformat()
         """
-        formed_dict = self.__dict__.copy()
-        formed_dict['__class__'] = self.__class__.__name__
+        my_dict = self.__dict__.copy()
+        my_dict['__class__'] = self.__class__.__name__
 
         if type(self.updated_at) is datetime:
-            formed_dict['updated_at'] = self.updated_at.isoformat()
+            my_dict['updated_at'] = self.updated_at.isoformat()
 
         if type(self.created_at) is datetime:
-            formed_dict['created_at'] = self.created_at.isoformat()
+            my_dict['created_at'] = self.created_at.isoformat()
 
-        return formed_dict
+        return my_dict
