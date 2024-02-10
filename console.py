@@ -195,13 +195,13 @@ class HBNBCommand(cmd.Cmd):
                 obj.__dict__[argl[2]] = argl[3]
         elif type(eval(argl[2])) == dict:
             obj = objdict["{}.{}".format(argl[0], argl[1])]
-            for k, val in eval(argl[2]).items():
-                if (k in obj.__class__.__dict__.keys() and
-                        type(obj.__class__.__dict__[k]) in {str, int, float}):
-                    valtype = type(obj.__class__.__dict__[k])
-                    obj.__dict__[k] = valtype(val)
+            for kv, val in eval(argl[2]).items():
+                if (kv in obj.__class__.__dict__.keys() and
+                        type(obj.__class__.__dict__[kv]) in {str, int, float}):
+                    valtype = type(obj.__class__.__dict__[kv])
+                    obj.__dict__[kv] = valtype(val)
                 else:
-                    obj.__dict__[k] = val
+                    obj.__dict__[kv] = val
         storage.save()
 
 

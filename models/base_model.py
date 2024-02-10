@@ -20,11 +20,11 @@ class BaseModel:
         self.created_at = datetime.today()
         self.updated_at = datetime.today()
         if len(kwargs) != 0:
-            for k, val in kwargs.items():
-                if k == "created_at" or k == "updated_at":
-                    self.__dict__[k] = datetime.strptime(val, timeform)
+            for kv, val in kwargs.items():
+                if kv == "created_at" or kv == "updated_at":
+                    self.__dict__[kv] = datetime.strptime(val, timeform)
                 else:
-                    self.__dict__[k] = val
+                    self.__dict__[kv] = val
         else:
             models.storage.new(self)
 
