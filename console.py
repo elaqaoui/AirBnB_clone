@@ -1,258 +1,183 @@
-#!/usr/bin/env python3
-"""Program called console.py that contains the entry point of the command
-interpreter.
+#!/usr/bin/python3
+""" Defines the console class
+which is the entry point of the Airbnb Project
 """
-import cmd
-import os
-from models.base_model import BaseModel
+
+
+from cmd import Cmd
 from models import storage
+from models.engine.errors import *
+import shlex
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
-# TODO: refactor delete, create, update, print in storage
+classes = storage.models
 
 
-class HBNBCommand(cmd.Cmd):
-    """Class to manage the console and all the commands built to the project"""
-    prompt = '(hbnb)'
-    valid_classes = ['BaseModel', 'User', 'Amenity', 'Review', 'State', 'City',
-                     'Place']
+class HBNBCommand(Cmd):
+    """ does various HBNB commands """
+    prompt = "(hbnb) "
 
-    ERROR_CLASS_NAME = '** class name missing **'
-    ERROR_CLASS = "** class doesn't exist **"
-    ERROR_ID = "** instance id missing **"
-    ERROR_ID_NOT_FOUND = "** no instance found **"
-    ERROR_ATTR = "** attribute name missing **"
-    ERROR_ATTR_VALUE = "** value missing **"
-
-    def cmd_cls_args_split(self, command, class_name):
-        """Auxiliary function to update the command-line interpreter. This
-        function manages and reorders the input of the console to allow the
-        functions to work with a formatted command line.
-        """
-        if command.find("(") != -1:
-            attr_name = ''
-            value = ''
-
-            args_split = command.split('(')
-            command = args_split[0]
-            args_split[1] = args_split[1].replace(')', '')
-            args_split[1] = args_split[1].replace('"', '')
-            args = args_split[1].split(',')
-            id_number = args[0].strip(" ")
-            if len(args) > 1:
-                attr_name = args[1].strip(" ")
-            if len(args) > 2:
-                value = args[2].strip(" ")
-            return '{} {} {} {} "{}"'.format(command, class_name, id_number,
-                                             attr_name, value)
-
-        elif class_name in HBNBCommand.valid_classes:
-            return "{} {}".format(command, class_name)
-
-    def onecmd(self, line: str) -> bool:
-        """Updating the command line interpreter to allow this usage:
-        <class name>.<command>() or <class name>.<command>("args")
-        """
-        line_split = line.split(".")
-        # Class.command
-        if len(line_split) > 1:
-            class_name = line_split[0]
-            command = line_split[1].replace('()', '')
-            # parameters
-            line = self.cmd_cls_args_split(command, class_name)
-
-        return super().onecmd(line)
-
-    def validate_len_args(self, arg):
-        """Validates if the command receives the class_name argument"""
-        if len(arg) == 0:
-            print(HBNBCommand.ERROR_CLASS_NAME)
-            return False
+    # Commands
+    def do_EOF(self, args):
+        """Exits the programme in non-interactive mode"""
         return True
 
-    def validate_class_name(self, arg):
-        """Validates if the class_name argument is a valid class"""
-        args = arg.split(' ')
-        class_name = args[0]
-        if class_name not in HBNBCommand.valid_classes:
-            print(HBNBCommand.ERROR_CLASS)
-            return False
-        return class_name
-
-    def validate_id(self, arg):
-        """Validates if the command receives an id_number argument """
-        args = arg.split(' ')
-        if len(args) < 2:
-            print(HBNBCommand.ERROR_ID)
-            return False
-        id_number = args[1]
-        return id_number
-
-    def validate_attr(self, arg):
-        """Validates if the command receives an attribute argument"""
-        args = arg.split(' ')
-        if len(args) < 3:
-            print(HBNBCommand.ERROR_ATTR)
-            return False
-        attribute = args[2]
-        return attribute
-
-    def validate_attr_value(self, arg):
-        """Validates if attribute value exists"""
-        args = arg.split(' ')
-        if len(args) < 4:
-            print(HBNBCommand.ERROR_ATTR_VALUE)
-            return False
-        attr_value = args[3]
-        return attr_value
-
-    def do_EOF(self, arg):
-        """ Quits with new line <end of file>
-        Usage: Ctrl + d """
-        print()
+    def do_quit(self, args):
+        """Quits commands that closes the programme"""
         return True
 
     def emptyline(self):
-        """ None """
+        """Overides empty line to do nothing """
         pass
 
-    def do_quit(self, arg):
-        """ Quits the console
-        Usage: quit """
-        return True
-
-    def do_create(self, arg):
-        """ Creates new elements
-        Usage: create <class_name> or <class_name>.create()
+    def do_create(self, args):
+        """creates a new instance of a model name ex.
+        $ create ModelName : Our case : BaseModel.
+        Prints an error if name is missing or name doesn't exist
         """
-        if not self.validate_len_args(arg):
-            return
+        args, n = parse(args)
 
-        class_name = self.validate_class_name(arg)
-        if not class_name:
-            return
-
-        storage.create(class_name)
+        if not n:
+            print("** class name missing **")
+        elif args[0] not in classes:
+            print("** class doesn't exist **")
+        elif n == 1:
+            # temp = classes[args[0]]()
+            temp = eval(args[0])()
+            print(temp.id)
+            temp.save()
+        else:
+            print("** Too many argument for create **")
+            pass
 
     def do_show(self, arg):
-        """ Shows an element by id_number
-        Usage: show <class_name> <id> or <class_name>.show("<id>")
-        """
-        if not self.validate_len_args(arg):
-            return
+        """Show an Instance of Model base on its ModelName and id eg.
+        $ show MyModel instance_id
+        Print error message if either MyModel or instance_id is missing
+        Print an Error message for wrong MyModel or instance_id"""
+        args, n = parse(arg)
 
-        class_name = self.validate_class_name(arg)
-        if not class_name:
-            return
-
-        id_number = self.validate_id(arg)
-        if not id_number:
-            return
-        objects = storage.all()
-        key = "{}.{}".format(class_name, id_number)
-        try:
-            print(objects[key])
-        except:
-            print(HBNBCommand.ERROR_ID_NOT_FOUND)
+        if not n:
+            print("** class name missing **")
+        elif n == 1:
+            print("** instance id missing **")
+        elif n == 2:
+            try:
+                inst = storage.find_by_id(*args)
+                print(inst)
+            except ModelNotFoundError:
+                print("** class doesn't exist **")
+            except InstanceNotFoundError:
+                print("** no instance found **")
+        else:
+            print("** Too many argument for show **")
+            pass
 
     def do_destroy(self, arg):
-        """ Deletes elements in storage
-        Usage: destroy <class_name> <id> or <class_name>.destroy("<id>")
-        """
-        if not self.validate_len_args(arg):
-            return
+        """Deletes an Instance of Model base on its ModelName and id."""
+        args, n = parse(arg)
 
-        class_name = self.validate_class_name(arg)
-        if not class_name:
-            return
+        if not n:
+            print("** class name missing **")
+        elif n == 1:
+            print("** instance id missing **")
+        elif n == 2:
+            try:
+                storage.delete_by_id(*args)
+            except ModelNotFoundError:
+                print("** class doesn't exist **")
+            except InstanceNotFoundError:
+                print("** no instance found **")
+        else:
+            print("** Too many argument for destroy **")
+            pass
 
-        id_number = self.validate_id(arg)
-        if not id_number:
-            return
+    def do_all(self, args):
+        """Usage: all or all <class> or <class>.all()
+        Display string representations of all instances of a given class.
+        If no class is specified, displays all instantiated objects."""
+        args, n = parse(args)
 
-        objects = storage.all()
-        key = "{}.{}".format(class_name, id_number)
-
-        try:
-            del objects[key]
-            storage.save()
-        except:
-            print(HBNBCommand.ERROR_ID_NOT_FOUND)
-
-    def do_all(self, arg):
-        """ Prints all elements in storage by class name
-         Usage: all or all <class_name> or <class_name>.all()
-        """
-        class_name = None
-        if len(arg) > 0:
-            class_name = self.validate_class_name(arg)
-            if not class_name:
-                return
-            # filter data
-        storage.print(class_name)
+        if n < 2:
+            try:
+                print(storage.find_all(*args))
+            except ModelNotFoundError:
+                print("** class doesn't exist **")
+        else:
+            print("** Too many argument for all **")
+            pass
 
     def do_update(self, arg):
-        """ Updates info in storage
-        Usage: update <class_name> <id> <attribute_name> <attribute_value>
-        or <class_name>.update("<id>", "<attribute_name>", "<attribute_value>")
-        """
-        if not self.validate_len_args(arg):
-            return
-        class_name = self.validate_class_name(arg)
-        if not class_name:
-            return
-        id_number = self.validate_id(arg)
-        if not id_number:
-            return
-
-        attribute = self.validate_attr(arg)
-        if not attribute:
-            return
-        attr_value = self.validate_attr_value(arg)
-        if not attr_value:
-            return
-        try:
-            objects = storage.all()
-            key = "{}.{}".format(class_name, id_number)
-            obj = objects[key]
-        except:
-            print(HBNBCommand.ERROR_ID_NOT_FOUND)
-            return
-
-        # obj[attribute] = attr_value
-        attr_value = attr_value.strip('"')
-
-        if attr_value.isdigit():
-            attr_value = int(attr_value)
+        """Updates an instance base on its id eg
+        $ update Model id field value
+        Throws errors for missing arguments"""
+        args, n = parse(arg)
+        if not n:
+            print("** class name missing **")
+        elif n == 1:
+            print("** instance id missing **")
+        elif n == 2:
+            print("** attribute name missing **")
+        elif n == 3:
+            print("** value missing **")
         else:
             try:
-                attr_value = float(attr_value)
-            except:
-                pass
+                storage.update_one(*args[0:4])
+            except ModelNotFoundError:
+                print("** class doesn't exist **")
+            except InstanceNotFoundError:
+                print("** no instance found **")
 
-        setattr(obj, attribute, attr_value)
-        obj.save()
+    def default(self, arg):
+        """Override default method to handle class methods"""
+        if '.' in arg and arg[-1] == ')':
+            if arg.split('.')[0] not in classes:
+                print("** class doesn't exist **")
+                return
+            return self.handle_class_methods(arg)
+        return Cmd.default(self, arg)
 
-    def do_clear(self, _):
-        """Clears the terminal
-        Usage: clear
+    def do_models(self, arg):
+        """Print all registered Models"""
+        print(*classes)
+
+    def handle_class_methods(self, arg):
+        """Handle Class Methods
+        <cls>.all(), <cls>.show() etc
         """
-        if os.name == 'posix':
-            os.system('clear')
-        else:
-            os.system('cls')
 
-    def do_count(self, arg):
-        """ Retrieves the number of instances of a specific class
-        Usage: <class_name>.count()
-        """
-        if not self.validate_len_args(arg):
+        printable = ("all(", "show(", "count(", "create(")
+        try:
+            val = eval(arg)
+            for x in printable:
+                if x in arg:
+                    print(val)
+                    break
             return
-        class_name = self.validate_class_name(arg)
-        if not class_name:
-            return
+        except AttributeError:
+            print("** invalid method **")
+        except InstanceNotFoundError:
+            print("** no instance found **")
+        except TypeError as te:
+            field = te.args[0].split()[-1].replace("_", " ")
+            field = field.strip("'")
+            print(f"** {field} missing **")
+        except Exception as e:
+            print("** invalid syntax **")
+            pass
 
-        class_list = storage.filter_by_class(class_name)
-        print(len(class_list))
 
-if __name__ == '__main__':
+def parse(line: str):
+    """Splits lines by spaces"""
+    args = shlex.split(line)
+    return args, len(args)
+
+
+if __name__ == "__main__":
     HBNBCommand().cmdloop()
