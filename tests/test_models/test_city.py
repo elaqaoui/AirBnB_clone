@@ -1,11 +1,5 @@
 #!/usr/bin/python3
-"""Defines unittests for models/city.py.
-
-Unittest classes:
-    TestCity_instantiation
-    TestCity_save
-    TestCity_to_dict
-"""
+# test_city - Unittests for city class and child classes.
 import os
 import models
 import unittest
@@ -15,8 +9,7 @@ from models.city import City
 
 
 class TestCity_instantiation(unittest.TestCase):
-    """Unittests for testing instantiation of the City class."""
-
+# this tests if the object is stored in the object manager.
     def test_instantiation_without_arguments(self):
         self.assertEqual(City, type(City()))
 
@@ -89,9 +82,8 @@ class TestCity_instantiation(unittest.TestCase):
         with self.assertRaises(TypeError):
             City(id=None, created_at=None, updated_at=None)
 
-
+#    def test_instantiation_with_None_kwargs_and_default_values(self):
 class TestCity_save(unittest.TestCase):
-    """Unittests for testing save method of the City class."""
 
     @classmethod
     def setUp(self):
@@ -142,8 +134,7 @@ class TestCity_save(unittest.TestCase):
 
 
 class TestCity_to_dict(unittest.TestCase):
-    """Unittests for testing to_dict method of the City class."""
-
+# this test is for the to_dict method
     def test_to_dict_type(self):
         self.assertTrue(dict, type(City().to_dict()))
 

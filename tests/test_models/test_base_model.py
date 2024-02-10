@@ -1,11 +1,5 @@
 #!/usr/bin/python3
-"""Defines unittests for models/base_model.py.
-
-Unittest classes:
-    TestBaseModel_instantiation
-    TestBaseModel_save
-    TestBaseModel_to_dict
-"""
+# test_base_model - Unittests for base model class and child classes .
 import os
 import models
 import unittest
@@ -13,36 +7,36 @@ from datetime import datetime
 from time import sleep
 from models.base_model import BaseModel
 
+# Unittests for the base model class
 
 class TestBaseModel_instantiation(unittest.TestCase):
-    """Unittests for testing instantiation of the BaseModel class."""
-
+# base model instantiation tests for BaseModel.
     def test_instantiation_without_arguments(self):
         self.assertEqual(BaseModel, type(BaseModel()))
-
+# tests if the object is stored in the object manager
     def test_instance_stored_in_object_manager(self):
         self.assertIn(BaseModel(), models.storage.all().values())
-
+# tests if the id is a string
     def test_public_id_is_string(self):
         self.assertEqual(str, type(BaseModel().id))
-
+# tests if created_at and updated_at are datetime
     def test_public_created_at_is_datetime(self):
         self.assertEqual(datetime, type(BaseModel().created_at))
-
+# tests if created_at and updated_at are datetime
     def test_updated_at_is_datetime(self):
         self.assertEqual(datetime, type(BaseModel().updated_at))
-
+# tests if the id is unique
     def test_two_models_unique_ids(self):
         bm1 = BaseModel()
         bm2 = BaseModel()
         self.assertNotEqual(bm1.id, bm2.id)
-
+# tests if created_at and updated_at are different.
     def test_two_models_different_created_at(self):
         bm1 = BaseModel()
         sleep(0.05)
         bm2 = BaseModel()
         self.assertLess(bm1.created_at, bm2.created_at)
-
+# tests if created_at and updated_at are different.
     def test_two_models_different_updated_at(self):
         bm1 = BaseModel()
         sleep(0.05)
@@ -87,8 +81,6 @@ class TestBaseModel_instantiation(unittest.TestCase):
 
 
 class TestBaseModel_save(unittest.TestCase):
-    """Unittests for testing save method of the BaseModel class."""
-
     @classmethod
     def setUp(self):
         try:
@@ -139,8 +131,7 @@ class TestBaseModel_save(unittest.TestCase):
 
 
 class TestBaseModel_to_dict(unittest.TestCase):
-    """Unittests for testing to_dict method of the BaseModel class."""
-
+# base model to dictionary tests for BaseModel.
     def test_to_dict_type(self):
         bm = BaseModel()
         self.assertTrue(dict, type(bm.to_dict()))

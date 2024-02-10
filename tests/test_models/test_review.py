@@ -13,14 +13,13 @@ Review = review.Review
 
 
 class TestReviewDocs(unittest.TestCase):
-    """Tests to check the documentation and style of Review class"""
     @classmethod
+    #def setUpClass(cls):
     def setUpClass(cls):
         """Set up for the doc tests"""
         cls.review_f = inspect.getmembers(Review, inspect.isfunction)
 
     def test_pep8_conformance_review(self):
-        """Test that models/review.py conforms to PEP8."""
         pep8s = pep8.StyleGuide(quiet=True)
         result = pep8s.check_files(['models/review.py'])
         self.assertEqual(result.total_errors, 0,
