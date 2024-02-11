@@ -32,7 +32,7 @@ class TestHBNBCommand_hlp(unittest.TestCase):
 
     def test_create_hlp(self):
         p1 = ("Usage: create <class>\n        "
-             "Create a new class instance and print its id.")
+              "Create a new class instance and print its id.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help create"))
             self.assertEqual(p1, output.getvalue().strip())
@@ -45,49 +45,51 @@ class TestHBNBCommand_hlp(unittest.TestCase):
 
     def test_show_hlp(self):
         p1 = ("Usage: show <class> <id> or <class>.show(<id>)\n        "
-             "Display the string representation of a class instance of"
-             " a given id.")
+              "Display the string representation of a class instance of"
+              " a given id.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help show"))
             self.assertEqual(p1, output.getvalue().strip())
 
     def test_destroy_hlp(self):
         p1 = ("Usage: destroy <class> <id> or <class>.destroy(<id>)\n        "
-             "Delete a class instance of a given id.")
+              "Delete a class instance of a given id.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help destroy"))
             self.assertEqual(p1, output.getvalue().strip())
 
     def test_all_hp(self):
-        p1 = ("Usage: all or all <class> or <class>.all()\n        "
-             "Display string representations of all instances of a given class"
-             ".\n        If no class is specified, displays all instantiated "
-             "objects.")
+        p1 = (
+            "Usage: all or all <class> or <class>.all()\n        "
+            "Display string representations of all instances of a given class"
+            ".\n        If no class is specified, displays all instantiated "
+            "objects.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help all"))
             self.assertEqual(p1, output.getvalue().strip())
 
     def test_count_hlp(self):
         p1 = ("Usage: count <class> or <class>.count()\n        "
-             "Retrieve the number of instances of a given class.")
+              "Retrieve the number of instances of a given class.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help count"))
             self.assertEqual(p1, output.getvalue().strip())
 
     def test_help_update(self):
-        p1 = ("Usage: update <class> <id> <attribute_name> <attribute_value> or"
-             "\n       <class>.update(<id>, <attribute_name>, <attribute_value"
-             ">) or\n       <class>.update(<id>, <dictionary>)\n        "
-             "Update a class instance of a given id by adding or updating\n   "
-             "     a given attribute key/value pair or dictionary.")
+        p1 = (
+            "Usage: update <class> <id> <attribute_name> <attribute_value> or"
+            "\n       <class>.update(<id>, <attribute_name>, <attribute_value"
+            ">) or\n       <class>.update(<id>, <dictionary>)\n        "
+            "Update a class instance of a given id by adding or updating\n   "
+            "     a given attribute key/value pair or dictionary.")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help update"))
             self.assertEqual(p1, output.getvalue().strip())
 
     def test_help(self):
         p1 = ("Documented commands (type help <topic>):\n"
-             "========================================\n"
-             "EOF  all  count  create  destroy  help  quit  show  update")
+              "========================================\n"
+              "EOF  all  count  create  destroy  help  quit  show  update")
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("help"))
             self.assertEqual(p1, output.getvalue().strip())
@@ -1174,9 +1176,11 @@ class TestHBNBCommand_update(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create BaseModel")
             test_id = output.getvalue().strip()
-        test_command = "update BaseModel {} attr_name 'attr_value'".format(test_id)
+        test_command = "update BaseModel {} attr_name 'attr_value'".format(
+            test_id)
         self.assertFalse(HBNBCommand().onecmd(test_command))
-        test_dictionary = storage.all()["BaseModel.{}".format(test_id)].__dict__
+        test_dictionary = storage.all()[
+            "BaseModel.{}".format(test_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
 
         with patch("sys.stdout", new=StringIO()) as output:
@@ -1214,7 +1218,8 @@ class TestHBNBCommand_update(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Amenity")
             test_id = output.getvalue().strip()
-        test_command = "update Amenity {} attr_name 'attr_value'".format(test_id)
+        test_command = "update Amenity {} attr_name 'attr_value'".format(
+            test_id)
         self.assertFalse(HBNBCommand().onecmd(test_command))
         test_dictionary = storage.all()["Amenity.{}".format(test_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
@@ -1222,7 +1227,8 @@ class TestHBNBCommand_update(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Review")
             test_id = output.getvalue().strip()
-        test_command = "update Review {} attr_name 'attr_value'".format(test_id)
+        test_command = "update Review {} attr_name 'attr_value'".format(
+            test_id)
         self.assertFalse(HBNBCommand().onecmd(test_command))
         test_dictionary = storage.all()["Review.{}".format(test_id)].__dict__
         self.assertTrue("attr_value", test_dictionary["attr_name"])
@@ -1231,7 +1237,8 @@ class TestHBNBCommand_update(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create BaseModel")
             tp_id = output.getvalue().strip()
-        test_command = "BaseModel.update({}, attr_name, 'attr_value')".format(tp_id)
+        test_command = "BaseModel.update({}, attr_name, 'attr_value')".format(
+            tp_id)
         self.assertFalse(HBNBCommand().onecmd(test_command))
         test_dictionary = storage.all()["BaseModel.{}".format(tp_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
@@ -1247,7 +1254,8 @@ class TestHBNBCommand_update(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create State")
             tp_id = output.getvalue().strip()
-        test_command = "State.update({}, attr_name, 'attr_value')".format(tp_id)
+        test_command = "State.update({}, attr_name, 'attr_value')".format(
+            tp_id)
         self.assertFalse(HBNBCommand().onecmd(test_command))
         test_dictionary = storage.all()["State.{}".format(tp_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
@@ -1263,7 +1271,8 @@ class TestHBNBCommand_update(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Place")
             tp_id = output.getvalue().strip()
-        test_command = "Place.update({}, attr_name, 'attr_value')".format(tp_id)
+        test_command = "Place.update({}, attr_name, 'attr_value')".format(
+            tp_id)
         self.assertFalse(HBNBCommand().onecmd(test_command))
         test_dictionary = storage.all()["Place.{}".format(tp_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
@@ -1271,7 +1280,8 @@ class TestHBNBCommand_update(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Amenity")
             tp_id = output.getvalue().strip()
-        test_command = "Amenity.update({}, attr_name, 'attr_value')".format(tp_id)
+        test_command = "Amenity.update({}, attr_name, 'attr_value')".format(
+            tp_id)
         self.assertFalse(HBNBCommand().onecmd(test_command))
         test_dictionary = storage.all()["Amenity.{}".format(tp_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
@@ -1279,7 +1289,8 @@ class TestHBNBCommand_update(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Review")
             tp_id = output.getvalue().strip()
-        test_command = "Review.update({}, attr_name, 'attr_value')".format(tp_id)
+        test_command = "Review.update({}, attr_name, 'attr_value')".format(
+            tp_id)
         self.assertFalse(HBNBCommand().onecmd(test_command))
         test_dictionary = storage.all()["Review.{}".format(tp_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
@@ -1327,7 +1338,8 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_command = "update BaseModel {} ".format(test_id)
         test_command += "{'attr_name': 'attr_value'}"
         HBNBCommand().onecmd(test_command)
-        test_dictionary = storage.all()["BaseModel.{}".format(test_id)].__dict__
+        test_dictionary = storage.all()[
+            "BaseModel.{}".format(test_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
 
         with patch("sys.stdout", new=StringIO()) as output:
@@ -1391,7 +1403,8 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_command = "BaseModel.update({}".format(test_id)
         test_command += "{'attr_name': 'attr_value'})"
         HBNBCommand().onecmd(test_command)
-        test_dictionary = storage.all()["BaseModel.{}".format(test_id)].__dict__
+        test_dictionary = storage.all()[
+            "BaseModel.{}".format(test_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
 
         with patch("sys.stdout", new=StringIO()) as output:

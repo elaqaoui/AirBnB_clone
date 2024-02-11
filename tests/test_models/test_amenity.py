@@ -8,7 +8,7 @@ from models.amenity import Amenity
 
 
 class TestAmenity_instantiation(unittest.TestCase):
-# base model instantiation tests for BaseModel.
+    # base model instantiation tests for BaseModel.
     def test_instantiation_without_arguments(self):
         self.assertEqual(Amenity, type(Amenity()))
 
@@ -128,7 +128,7 @@ class TestAmenity_save(unittest.TestCase):
 
 
 class TestAmenity_to_dict(unittest.TestCase):
-# amenity to dictionary tests for Amenity.
+    # amenity to dictionary tests for Amenity.
     def test_to_dict_type(self):
         self.assertTrue(dict, type(Amenity().to_dict()))
 

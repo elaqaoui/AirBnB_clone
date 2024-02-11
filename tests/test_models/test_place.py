@@ -9,7 +9,7 @@ from models.place import Place
 
 
 class TestPlace_instantiation(unittest.TestCase):
-# this tests if the object is stored in the object manager.
+    # this tests if the object is stored in the object manager.
     def test_instantiation_without_arguments(self):
         self.assertEqual(Place, type(Place()))
 
