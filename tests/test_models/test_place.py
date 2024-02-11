@@ -9,7 +9,7 @@ from models.place import Place
 
 
 class TestPlace_instantiation(unittest.TestCase):
-    # this tests if the object is stored in the object manager.
+# this tests if the object is stored in the object manager.
     def test_instantiation_without_arguments(self):
         self.assertEqual(Place, type(Place()))
 
@@ -138,6 +138,7 @@ class TestPlace_instantiation(unittest.TestCase):
 
 
 class TestPlace_save(unittest.TestCase):
+
     @classmethod
     def setUp(self):
         try:
@@ -187,6 +188,7 @@ class TestPlace_save(unittest.TestCase):
 
 
 class TestPlace_to_dict(unittest.TestCase):
+
     def test_to_dict_type(self):
         self.assertTrue(dict, type(Place().to_dict()))
 
@@ -217,10 +219,10 @@ class TestPlace_to_dict(unittest.TestCase):
         pl.id = "123456"
         pl.created_at = pl.updated_at = dt
         t_dict = {
-            "id": "123456",
-            "__class__": "Place",
-            "created_at": dt.isoformat(),
-            "updated_at": dt.isoformat(),
+            'id': '123456',
+            '__class__': 'Place',
+            'created_at': dt.isoformat(),
+            'updated_at': dt.isoformat(),
         }
         self.assertDictEqual(pl.to_dict(), t_dict)
 

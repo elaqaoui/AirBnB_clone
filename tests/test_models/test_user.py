@@ -15,6 +15,7 @@ from models.user import User
 
 
 class TestUser_instantiation(unittest.TestCase):
+
     def test_instantiation_without_arguments(self):
         self.assertEqual(User, type(User()))
 
@@ -172,10 +173,10 @@ class TestUser_to_dict(unittest.TestCase):
         us.id = "123456"
         us.created_at = us.updated_at = dt
         t_dict = {
-            "id": "123456",
-            "__class__": "User",
-            "created_at": dt.isoformat(),
-            "updated_at": dt.isoformat(),
+            'id': '123456',
+            '__class__': 'User',
+            'created_at': dt.isoformat(),
+            'updated_at': dt.isoformat(),
         }
         self.assertDictEqual(us.to_dict(), t_dict)
 
