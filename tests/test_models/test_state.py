@@ -12,6 +12,7 @@ class TestState_instantiation(unittest.TestCase):
     # Tests for instantiation
     def test_no_args_instantiates(self):
         self.assertEqual(State, type(State()))
+
     # chak fhadi
 
     def test_instantiation_without_arguments(self):
@@ -82,7 +83,6 @@ class TestState_instantiation(unittest.TestCase):
 
 
 class TestState_save(unittest.TestCase):
-
     @classmethod
     def setUp(self):
         try:
@@ -132,7 +132,6 @@ class TestState_save(unittest.TestCase):
 
 
 class TestState_to_dict(unittest.TestCase):
-
     def test_to_dict_type(self):
         self.assertTrue(dict, type(State().to_dict()))
 
@@ -163,10 +162,10 @@ class TestState_to_dict(unittest.TestCase):
         st.id = "123456"
         st.created_at = st.updated_at = dt
         t_dict = {
-            'id': '123456',
-            '__class__': 'State',
-            'created_at': dt.isoformat(),
-            'updated_at': dt.isoformat(),
+            "id": "123456",
+            "__class__": "State",
+            "created_at": dt.isoformat(),
+            "updated_at": dt.isoformat(),
         }
         self.assertDictEqual(st.to_dict(), t_dict)
 

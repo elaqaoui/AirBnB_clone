@@ -9,7 +9,7 @@ from models.city import City
 
 
 class TestCity_instantiation(unittest.TestCase):
-# this tests if the object is stored in the object manager.
+    # this tests if the object is stored in the object manager.
     def test_instantiation_without_arguments(self):
         self.assertEqual(City, type(City()))
 
@@ -82,9 +82,9 @@ class TestCity_instantiation(unittest.TestCase):
         with self.assertRaises(TypeError):
             City(id=None, created_at=None, updated_at=None)
 
+
 #    def test_instantiation_with_None_kwargs_and_default_values(self):
 class TestCity_save(unittest.TestCase):
-
     @classmethod
     def setUp(self):
         try:
@@ -134,7 +134,7 @@ class TestCity_save(unittest.TestCase):
 
 
 class TestCity_to_dict(unittest.TestCase):
-# this test is for the to_dict method
+    # this test is for the to_dict method
     def test_to_dict_type(self):
         self.assertTrue(dict, type(City().to_dict()))
 
@@ -165,10 +165,10 @@ class TestCity_to_dict(unittest.TestCase):
         cy.id = "123456"
         cy.created_at = cy.updated_at = dt
         t_dict = {
-            'id': '123456',
-            '__class__': 'City',
-            'created_at': dt.isoformat(),
-            'updated_at': dt.isoformat(),
+            "id": "123456",
+            "__class__": "City",
+            "created_at": dt.isoformat(),
+            "updated_at": dt.isoformat(),
         }
         self.assertDictEqual(cy.to_dict(), t_dict)
 
