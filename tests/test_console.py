@@ -12,7 +12,7 @@ from unittest.mock import patch
 class TestHBNBCommand_prmp(unittest.TestCase):
     """Unittests for testing prompting of the HBNB command interpreter."""
 
-    def test_prom_str(self):
+    def test_promote_string(self):
         self.assertEqual("(hbnb) ", HBNBCommand.prompt)
 
     def test_vide_line(self):
@@ -1066,7 +1066,7 @@ class TestHBNBCommand_update(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd(test_command))
             self.assertEqual(is_correct, output.getvalue().strip())
 
-    def update_up_missing_attribute_space3(self):
+    def test_update_missing_attr_space_notation(self):
         is_correct = "** value missing **"
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create BaseModel")
@@ -1284,7 +1284,7 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_dictionary = storage.all()["Review.{}".format(tp_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
 
-    def test_update_valid_int_attr_space_notation(self):
+    def test_update_int_attr_space_notation(self):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Place")
             test_id = output.getvalue().strip()
@@ -1293,7 +1293,7 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_dictionary = storage.all()["Place.{}".format(test_id)].__dict__
         self.assertEqual(98, test_dictionary["max_guest"])
 
-    def test_update_valid_int_attr_dot_notation(self):
+    def test_update_int_attr_dot_notation(self):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Place")
             tp_id = output.getvalue().strip()
@@ -1302,7 +1302,7 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_dictionary = storage.all()["Place.{}".format(tp_id)].__dict__
         self.assertEqual(98, test_dictionary["max_guest"])
 
-    def test_update_valid_float_attr_space_notation(self):
+    def test_update_float_attr_space_notation(self):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Place")
             test_id = output.getvalue().strip()
@@ -1320,7 +1320,7 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_dictionary = storage.all()["Place.{}".format(tp_id)].__dict__
         self.assertEqual(7.2, test_dictionary["latitude"])
 
-    def test_update_valid_dictionary_space_notation(self):
+    def test_update_dict_space_notation(self):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create BaseModel")
             test_id = output.getvalue().strip()
@@ -1384,7 +1384,7 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_dictionary = storage.all()["Review.{}".format(test_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
 
-    def test_update_valid_dictionary_dot_notation(self):
+    def test_dict_update_with_whimsical_dots(self):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create BaseModel")
             test_id = output.getvalue().strip()
@@ -1448,7 +1448,7 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_dictionary = storage.all()["Review.{}".format(test_id)].__dict__
         self.assertEqual("attr_value", test_dictionary["attr_name"])
 
-    def test_update_valid_dictionary_with_int_space_notation(self):
+    def test_update_dict_with_int_space_notation(self):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Place")
             test_id = output.getvalue().strip()
@@ -1458,7 +1458,7 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_dictionary = storage.all()["Place.{}".format(test_id)].__dict__
         self.assertEqual(98, test_dictionary["max_guest"])
 
-    def test_update_valid_dictionary_with_int_dot_notation(self):
+    def test_update_dict_with_int_dot_notation(self):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Place")
             test_id = output.getvalue().strip()
@@ -1468,7 +1468,7 @@ class TestHBNBCommand_update(unittest.TestCase):
         test_dictionary = storage.all()["Place.{}".format(test_id)].__dict__
         self.assertEqual(98, test_dictionary["max_guest"])
 
-    def test_update_valid_dictionary_with_float_space_notation(self):
+    def test_update_dict_with_float_space_notation(self):
         with patch("sys.stdout", new=StringIO()) as output:
             HBNBCommand().onecmd("create Place")
             test_id = output.getvalue().strip()

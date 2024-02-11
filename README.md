@@ -1,6 +1,5 @@
 ## Project : AirBnB Clone - Console
 ## authors : Mohamed EL AQAOUI & Atmane Baria
-#hi
 Project Overview :
 Welcome to the AirBnB clone project! this project is a good challenge for us to test our python knowledge during this learning The primary objective is to develop a command interpreter to manage various objects within the AirBnB application.
 
