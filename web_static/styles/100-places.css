@@ -29,7 +29,7 @@
   text-align: center;
 }
 
-.places .price_by_night {
+.places .price_nuit {
   color: #ff5a5f;
   border: #ff5a5f solid 4px;
   border-radius: 50%;
@@ -91,25 +91,25 @@
   padding: 10px 0;
 }
 
-article .amenities,
+article .Facilitie,
 article .reviews {
   margin-top: 40px;
 }
-article .amenities h2,
+article .Facilitie h2,
 article .reviews h2 {
   text-align: initial;
   font-size: 16px;
   border-bottom: #dddddd solid 1px;
 }
 
-article .amenities ul,
+article .Facilitie ul,
 article .reviews ul {
   list-style: none;
   margin: 0%;
   padding: 0%;
 }
 
-article .amenities ul li {
+article .Facilitie ul li {
   padding: 5px;
 }
 

@@ -25,20 +25,20 @@
     opacity: 0.9;
 }
 
-.filters .locations{
+.filters .place{
     height: 100%;
     width: 25%;
     border-right: #DDDDDD solid 1px;
     margin-left: 30px;
 }
 
-.filters .amenities {
+.filters .Facilitie {
     height: 100%;
     width: 25%;
     margin-left: 30px;
 }
 
-.filters locations .filters amenities h3 {
+.filters place .filters Facilitie h3 {
     font-weight: 600;
     margin-bottom: 0px;
 }
