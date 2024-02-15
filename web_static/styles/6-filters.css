@@ -30,7 +30,7 @@
 }
 
 .filters .place,
-.filters .Facilitie {
+.filters .amenities {
   height: 100%;
   width: 25%;
   position: relative;
@@ -38,27 +38,27 @@
 }
 
 .filters .place h3,
-.filters .Facilitie h3 {
+.filters .amenities h3 {
   font-weight: 600;
   margin: 0;
   padding: 17px 30px 0 30px;
 }
 
 .filters .place h4,
-.filters .Facilitie h4 {
+.filters .amenities h4 {
   font-weight: 400;
   font-size: 14px;
   margin-top: 0;
   padding-left: 30px;
 }
 
-.dropdown h2 {
+.popover h2 {
   font-size: 16px;
   margin: 0;
   padding: 10px 0px 0px 30px;
 }
 
-.dropdown {
+.popover {
   background: #FAFAFA;
   border: 1px solid #DDDDDD;
   border-radius: 4px;
@@ -69,8 +69,8 @@
   width: 100%;
 }
 
-.filters .place:hover .dropdown,
-.filters .Facilitie:hover .dropdown {
+.filters .place:hover .popover,
+.filters .amenities:hover .popover {
   display: block;
 }
 
@@ -79,6 +79,6 @@
   margin: 0;
 }
 
-.dropdown li {
+.popover li {
   margin: 12px;
 }

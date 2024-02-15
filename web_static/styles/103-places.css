@@ -32,7 +32,7 @@
     margin    : 0;
 }
 
-.price_nuit {
+.price_by_night {
     font-size      : 30px;
     height         : 60px;
     color          : #FF5a5F;
@@ -96,16 +96,16 @@
     margin-bottom: 5px;
 }
 
-.places .Facilitie {
+.places .amenities {
     margin-top: 40px;
 }
 
-.places .Facilitie>h2 {
+.places .amenities>h2 {
     font-size    : 16px;
     border-bottom: 1px solid #DDDDDD;
 }
 
-.places .Facilitie ul {
+.places .amenities ul {
     list-style: none;
 }
 
@@ -130,14 +130,14 @@
     height         : 20px;
 }
 
-.Facilitie>ul>li {
+.amenities>ul>li {
     display        : flex;
     flex-direction : row;
     justify-content: flex-start;
     margin-left    : -2.5em;
 }
 
-.Facilitie>ul>li>div {
+.amenities>ul>li>div {
     margin-right: 0.5em;
 }
 
