@@ -25,11 +25,11 @@
   opacity: 0.9;
 }
 
-.filters .place {
+.filters .locations {
   border-right: #dddddd solid 1px;
 }
 
-.filters .place,
+.filters .locations,
 .filters .amenities {
   height: 100%;
   width: 25%;
@@ -37,14 +37,14 @@
   z-index: 1;
 }
 
-.filters .place h3,
+.filters .locations h3,
 .filters .amenities h3 {
   font-weight: 600;
   margin: 0;
   padding: 17px 30px 0 30px;
 }
 
-.filters .place h4,
+.filters .locations h4,
 .filters .amenities h4 {
   font-weight: 400;
   font-size: 14px;
@@ -69,7 +69,7 @@
   width: 100%;
 }
 
-.filters .place:hover .popover,
+.filters .locations:hover .popover,
 .filters .amenities:hover .popover {
   display: block;
 }
